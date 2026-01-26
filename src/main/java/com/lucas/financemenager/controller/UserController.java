@@ -1,0 +1,22 @@
+package com.lucas.financemenager.controller;
+
+import com.lucas.financemenager.model.dto.UserRequest;
+import com.lucas.financemenager.model.dto.UserResponse;
+import com.lucas.financemenager.service.UserService;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping
+    public UserResponse create(@RequestBody UserRequest request) {
+        return userService.createUser(request);
+    }
+}

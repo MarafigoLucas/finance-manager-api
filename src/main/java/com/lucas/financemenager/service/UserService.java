@@ -1,15 +1,19 @@
 package com.lucas.financemenager.service;
 
 import com.lucas.financemenager.exception.BusinessException;
+import com.lucas.financemenager.model.dto.UserRequest;
+import com.lucas.financemenager.model.dto.UserResponse;
 import com.lucas.financemenager.model.entity.User;
 import com.lucas.financemenager.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+
+
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
-
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -26,15 +30,32 @@ public class UserService {
             throw new BusinessException("Senha é obrigatória.");
         }
         if(userRepository.findByEmail(user.getEmail()).isPresent()){
-            throw  new BusinessException("E-mail já cadastrado.");
+            throw new BusinessException("E-mail já cadastrado.");
         }
     }
 
-    public User createUser(User user){
+    public UserResponse createUser(UserRequest request){
+
+        User user = new User(
+                request.name(),
+                request.email(),
+                request.password()
+        );
+
         validateUser(user);
-       return userRepository.save(user);
+
+        User saved = userRepository.save(user);
+
+        return new UserResponse(
+                saved.getId(),
+                saved.getName(),
+                saved.getEmail()
+        );
     }
-
-
-
 }
+
+
+
+
+
+
