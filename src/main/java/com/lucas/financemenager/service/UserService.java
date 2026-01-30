@@ -65,6 +65,18 @@ public class UserService {
                 .toList();
     }
 
+    public UserResponse getUserById(Long id){
+
+        User user = userRepository.findById(id)
+                .orElseThrow(()->
+        new BusinessException("Usuiario não encontrado"));
+
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail());
+    }
+
 }
 
 
