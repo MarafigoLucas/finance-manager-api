@@ -1,8 +1,11 @@
 package com.lucas.financemenager.model.entity;
 
+import com.lucas.financemenager.model.dto.UserResponse;
+import com.lucas.financemenager.model.repository.UserRepository;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +36,7 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
 
     @PrePersist
     protected void onCreate() {

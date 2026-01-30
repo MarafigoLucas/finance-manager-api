@@ -5,6 +5,8 @@ import com.lucas.financemenager.model.dto.UserResponse;
 import com.lucas.financemenager.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -18,5 +20,10 @@ public class UserController {
     @PostMapping
     public UserResponse create(@RequestBody UserRequest request) {
         return userService.createUser(request);
+    }
+
+    @GetMapping
+    public List<UserResponse>listUsers(){
+        return userService.listUsers();
     }
 }

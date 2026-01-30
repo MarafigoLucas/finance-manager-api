@@ -7,7 +7,7 @@ import com.lucas.financemenager.model.entity.User;
 import com.lucas.financemenager.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-
+import java.util.List;
 
 
 @Service
@@ -18,6 +18,8 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+
 
     private void validateUser(User user){
         if(user.getName() == null || user.getName().isBlank()){
@@ -52,6 +54,17 @@ public class UserService {
                 saved.getEmail()
         );
     }
+    public List<UserResponse> listUsers(){
+        return userRepository.findAll()
+                .stream()
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail()
+                ))
+                .toList();
+    }
+
 }
 
 
