@@ -5,6 +5,7 @@ import com.lucas.financemenager.model.dto.UserRequest;
 import com.lucas.financemenager.model.dto.UserResponse;
 import com.lucas.financemenager.model.entity.User;
 import com.lucas.financemenager.model.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 public class UserService {
+
 
     private final UserRepository userRepository;
 
@@ -69,12 +71,19 @@ public class UserService {
 
         User user = userRepository.findById(id)
                 .orElseThrow(()->
-        new BusinessException("Usuiario não encontrado"));
+        new BusinessException("Usuário não encontrado"));
 
         return new UserResponse(
                 user.getId(),
                 user.getName(),
                 user.getEmail());
+    }
+
+    public void deleteById(Long id){
+        if (!userRepository.existsById(id)){
+            throw  new BusinessException("Usuário não encontrado");
+        }
+        userRepository.deleteById(id);
     }
 
 }
