@@ -2,6 +2,7 @@ package com.lucas.financemenager.controller;
 
 import com.lucas.financemenager.model.dto.UserRequest;
 import com.lucas.financemenager.model.dto.UserResponse;
+import com.lucas.financemenager.model.dto.UserUpdateRequest;
 import com.lucas.financemenager.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,10 +34,19 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse>update(
+            @PathVariable long id,
+            @RequestBody UserUpdateRequest request
+            ){
+        UserResponse response = userService.updateUser(id,request);
+        return ResponseEntity.ok(response);
     }
 }
