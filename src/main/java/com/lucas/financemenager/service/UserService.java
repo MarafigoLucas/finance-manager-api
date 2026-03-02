@@ -1,6 +1,7 @@
 package com.lucas.financemenager.service;
 
 import com.lucas.financemenager.exception.BusinessException;
+import com.lucas.financemenager.exception.ResourceNotFoundException;
 import com.lucas.financemenager.model.dto.UserRequest;
 import com.lucas.financemenager.model.dto.UserResponse;
 import com.lucas.financemenager.model.dto.UserUpdateRequest;
@@ -72,7 +73,7 @@ public class UserService {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() ->
-                        new BusinessException("Usuário não encontrado"));
+                        new ResourceNotFoundException("Usuário não encontrado"));
 
         return new UserResponse(
                 user.getId(),
@@ -82,7 +83,7 @@ public class UserService {
 
     public void deleteById(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new BusinessException("Usuário não encontrado");
+            throw new ResourceNotFoundException("Usuário não encontrado");
         }
         userRepository.deleteById(id);
     }
@@ -90,7 +91,7 @@ public class UserService {
     public UserResponse updateUser(Long id, UserUpdateRequest request) {
 
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Usuário não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
         if (request.name() != null && !request.name().isBlank()) {
             user.setName(request.name());

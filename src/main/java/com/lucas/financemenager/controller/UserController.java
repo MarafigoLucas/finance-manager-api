@@ -4,6 +4,8 @@ import com.lucas.financemenager.model.dto.UserRequest;
 import com.lucas.financemenager.model.dto.UserResponse;
 import com.lucas.financemenager.model.dto.UserUpdateRequest;
 import com.lucas.financemenager.service.UserService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,10 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponse create(@RequestBody UserRequest request) {
-        return userService.createUser(request);
+    public ResponseEntity<UserResponse> create(@Valid @RequestBody UserRequest request) {
+
+        UserResponse response = userService.createUser(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
